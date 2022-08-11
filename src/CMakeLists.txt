@@ -5,7 +5,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 #                 libFrameworkEx                 #
 ##################################################
 
-project(lib.pbni.base.tse CXX)
+project(div.cpp.miw.pbni-framework-example CXX)
 
 add_library(libFrameworkEx SHARED
 	"example.h"
