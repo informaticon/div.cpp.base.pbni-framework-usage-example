@@ -22,7 +22,7 @@ target_link_libraries( libFrameworkEx
 
 set_target_properties( libFrameworkEx PROPERTIES
 	LINK_FLAGS "/MACHINE:X86"
-	OUTPUT_NAME "lib.pbni.base.tse"
+	OUTPUT_NAME "libFrameworkEx"
 	RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_PATH}
 	ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_PATH}
 	LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_PATH}

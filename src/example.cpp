@@ -1,6 +1,5 @@
 #include "example.h"
 
-#include <fstream>
 #include <cstdlib>
 
 #include "lib.cpp.base.pbni-framework/ClassDescription.h"
@@ -11,11 +10,7 @@ INF_REGISTER_CLASS(PBNI_Example, L"u_pbni_ex");
 INF_REGISTER_FUNC(of_basic_func);
 void PBNI_Example::of_basic_func()
 {
-	std::ofstream out("C:\\Users\\micha.wehrli\\Desktop\\out.txt", std::ios::app);
-
-	out << "Function got called :O";
-
-	out.close();
+	MessageBoxW(NULL, L"A PBNI Function got called", L"PBNI Msg", MB_OK);
 }
 
 
@@ -89,6 +84,8 @@ Inf::PBBlob PBNI_Example::of_blobs(Inf::PBBlob abl_blob)
 INF_REGISTER_FUNC(of_objects, L"u_obj");
 Inf::PBObject<L"u_pbni_ex"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni_ex"> u_obj)
 {
+	return u_obj;
+
 	if (!u_obj.IsNull())
 	{
 		// Passing (m_Session, 0) wil create a null object with complex types
@@ -117,7 +114,7 @@ INF_REGISTER_FUNC(of_arrays, L"u_obj");
 void PBNI_Example::of_arrays(Inf::PBArray<Inf::PBInt> aa_arr)
 {
 	// Unbounded array start at 1, go up infinetly
-	// Gets can be out of vounds
+	// Gets error when out of bounds
 	if (10 <= aa_arr.Size())
 	{
 		Inf::PBInt x = aa_arr.Get(10);
@@ -127,8 +124,8 @@ void PBNI_Example::of_arrays(Inf::PBArray<Inf::PBInt> aa_arr)
 	aa_arr.Set(10468442, 1337);
 
 
-	// Bounded Array
-	// [1 to upper bound]
+	// 2D Bounded Array
+	// [1 to 4, 1 to 4]
 	Inf::PBArray<Inf::PBStruct<L"st_some_thing">, 4, 4> bounded(m_Session);
 	for (int i = 1; i <= 4; i++)
 	{
@@ -145,5 +142,8 @@ void PBNI_Example::of_throw(Inf::PBString as_err_msg)
 {
 	if (std::rand() % 64 < 16)
 		// This will throw a Powerbuilder exception, which you need to catch in PB
-		throw Inf::u_exf_pbni(L"Everything worked as expected!");
+		throw Inf::PBNI_Exception({ 
+			{ L"Error", L"Everything worked as expected!" },
+			{ L"Description", L"This error was intentionally thrown" }
+		});
 }
