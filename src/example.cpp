@@ -84,8 +84,6 @@ Inf::PBBlob PBNI_Example::of_blobs(Inf::PBBlob abl_blob)
 INF_REGISTER_FUNC(of_objects, L"u_obj");
 Inf::PBObject<L"u_pbni_ex"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni_ex"> u_obj)
 {
-	return u_obj;
-
 	if (!u_obj.IsNull())
 	{
 		// Passing (m_Session, 0) wil create a null object with complex types
