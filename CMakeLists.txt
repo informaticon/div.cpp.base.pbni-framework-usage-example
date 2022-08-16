@@ -23,7 +23,30 @@ set(PBNI_DIR "C:/Program Files (x86)/Appeon/PowerBuilder 17.0/SDK/PBNI" CACHE PA
 set(PBNI_INCLUDE_DIR "${PBNI_DIR}/include" CACHE PATH "PowerBuilder Native Interface header files location")
 set(PBNI_LIBRARY "${PBNI_DIR}/lib/pbni.lib" CACHE FILEPATH "PowerBuilder Native Interface library for release target")
 
-set(BOOST_INCLUDE_DIR "C:/Program Files/boost/boost_1_79_0" CACHE PATH "Header files for boost library")
+
+##################################################
+#                 libFrameworkEx                 #
+##################################################
+
+project("div.cpp.miw.pbni-framework-example" VERSION 1.0.0 LANGUAGES CXX)
+
+add_library(libFrameworkEx SHARED
+	"src/example.h"
+	"src/example.cpp"
+)
+
+set_target_properties( libFrameworkEx PROPERTIES
+	LINK_FLAGS "/MACHINE:X86"
+	OUTPUT_NAME "libFrameworkEx"
+	RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_PATH}
+	ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_PATH}
+	LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_PATH}
+)
+
+install(TARGETS libFrameworkEx
+	RUNTIME DESTINATION ${A3_LIB_PATH}
+)
 
 
-add_subdirectory(src)
+add_subdirectory("extern/lib.cpp.base.pbni-framework")
+target_link_libraries(libFrameworkEx PRIVATE libFramework)
