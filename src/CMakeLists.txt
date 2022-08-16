@@ -1,23 +1,15 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 
 ##################################################
 #                 libFrameworkEx                 #
 ##################################################
 
-project(div.cpp.miw.pbni-framework-example CXX)
+project("div.cpp.miw.pbni-framework-example" VERSION 1.0.0 LANGUAGES CXX)
 
 add_library(libFrameworkEx SHARED
 	"example.h"
 	"example.cpp"
-)
-
-target_include_directories( libFrameworkEx PUBLIC
-	"${CMAKE_SOURCE_DIR}/include"
-)
-
-target_link_libraries( libFrameworkEx
-	"${CMAKE_SOURCE_DIR}/lib/*.lib"
 )
 
 set_target_properties( libFrameworkEx PROPERTIES
@@ -33,6 +25,5 @@ install(TARGETS libFrameworkEx
 )
 
 
-set(PBNI_TARGET libFrameworkEx)
-set(SUBFOLDER "lib.cpp.base.pbni-framework")
-include("${SUBFOLDER}/lib.cpp.base.pbni-framework.cmake")
+add_subdirectory(libFramework)
+target_link_libraries(libFrameworkEx PRIVATE libFramework)

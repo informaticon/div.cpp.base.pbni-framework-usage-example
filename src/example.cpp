@@ -2,22 +2,28 @@
 
 #include <cstdlib>
 
-#include "lib.cpp.base.pbni-framework/ClassDescription.h"
+#include <ClassDescription.h>
 
 
+// Class Description needs to be registered before any functions
+// Never put any Register Macros inside a header, otherwise the classes/functions will be registered multiple times.
 INF_REGISTER_CLASS(PBNI_Example, L"u_pbni_ex");
+// Basically every string you use with PowerBuilder should be a wide string, so put L's infront of everything
 
+
+// All Function Registrations need to be in the same file as Class Registeristration
 INF_REGISTER_FUNC(of_basic_func);
 void PBNI_Example::of_basic_func()
 {
 	MessageBoxW(NULL, L"A PBNI Function got called", L"PBNI Msg", MB_OK);
 }
 
-
+// INF_REGISTER_FUNC needs to have the same amount of argument names as the registered function
+// INF_REGISTER_FUNC will automatically deduce argument and return types
 INF_REGISTER_FUNC(of_args_ref_return, L"aui_count", L"all_by_ref");
 Inf::PBBoolean PBNI_Example::of_args_ref_return(Inf::PBUint aui_count, Inf::PBLongLong& all_by_ref)
 {
-	// When the function returns it will set the PowerBuilder longlong to the ref
+	// When the function returns the PowerBuilder longlong will be set to all_by_ref
 	all_by_ref = aui_count;
 
 	// Automatic cast from bool to Inf::PBBoolean
@@ -26,17 +32,17 @@ Inf::PBBoolean PBNI_Example::of_args_ref_return(Inf::PBUint aui_count, Inf::PBLo
 
 
 INF_REGISTER_FUNC(of_dates, L"ad_date", L"at_time");
-Inf::PBDateTime PBNI_Example::of_dates(Inf::PBDate ad_date, Inf::PBTime at_time)
+Inf::PBDateTime PBNI_Example::of_dates(Inf::PBDate& ad_date, Inf::PBTime at_time)
 {
 	// PB[Date][Time] Are just small wrappers, if you want to do actuall calculations, use boost::gregorian
 	auto [year, month, day] = ad_date.GetDate();
 	auto [hour, minute, second] = at_time.GetTime();
 
 
-	//Incase you use Datetimes as reference you need to do
+	// If you pass DateTimes as reference you need to do
 	ad_date.SetDate(2201, 10, 28);
 
-	// You need to pass m_Sessino when creating complex types
+	// You need to pass m_Session when creating complex types
 	Inf::PBDateTime dt(m_Session, year, month, day, hour, minute, second);
 
 	return dt;
@@ -46,7 +52,7 @@ Inf::PBDateTime PBNI_Example::of_dates(Inf::PBDate ad_date, Inf::PBTime at_time)
 INF_REGISTER_FUNC(of_strings, L"as_str");
 Inf::PBString PBNI_Example::of_strings(Inf::PBString as_str)
 {
-	// This will convert PowerBuilders utf-16 to 8 bit using Windows API
+	// This will convert PowerBuilders utf-16 to Ansi using Windows API
 	std::string ansi_str = as_str.GetString();
 	// Creates copy of wstring
 	std::wstring unicode_str = as_str.GetWString();
@@ -60,24 +66,19 @@ Inf::PBString PBNI_Example::of_strings(Inf::PBString as_str)
 
 
 INF_REGISTER_FUNC(of_blobs, L"abl_blob");
-Inf::PBBlob PBNI_Example::of_blobs(Inf::PBBlob abl_blob)
+Inf::PBBlob PBNI_Example::of_blobs(Inf::PBBlob& abl_blob)
 {
 	// PBBlob is just a wrapper, GetData returns a pointer to the actual data
-	// std vector creates a copy
-	std::vector<uint8_t> data_cpp_style(abl_blob.GetData(), abl_blob.GetData() + abl_blob.Size());
-
-	for (uint8_t& byte : data_cpp_style)
+	for (pbbyte* byte = abl_blob.GetData(), *end = abl_blob.GetData() + abl_blob.Size() ; byte < end ; byte++)
 	{
-		byte |= 0b01010101;
+		// This will write to the reference
+		*byte |= 0b01010101;
 	}
 
-	uint8_t data[] = { 10, 230, 77 };
-	// This creates a copy
-	abl_blob.SetData(data, sizeof(data));
-	// If youre passing blobs by reference you dont need to do SetData if you write to GetData directly
+	std::vector<pbbyte> cpp_style_blob = { 10, 230, 77 };
 
-	// Also creates a copy of the vectors data
-	return Inf::PBBlob(m_Session, data_cpp_style.data(), data_cpp_style.size());
+	// This creates a copy of the vector in PowerBuilder memory
+	return Inf::PBBlob(m_Session, cpp_style_blob.data(), cpp_style_blob.size());
 }
 
 
@@ -86,15 +87,19 @@ Inf::PBObject<L"u_pbni_ex"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni_ex">
 {
 	if (!u_obj.IsNull())
 	{
-		// Passing (m_Session, 0) wil create a null object with complex types
+		// Passing (m_Session, 0) wil create a null object with all complex types (except dec)
 		Inf::PBObject<L"u_pbni_ex"> null_obj(m_Session, 0);
 
-		// You can invoke methods, you only need to give the Return Type
+		// You can invoke methods, just need to provide the Return Type
 		u_obj.Invoke<Inf::PBObject<L"u_pbni_ex">>(L"of_objects", PBRT_FUNCTION, null_obj);
+
+		// If you want to invoke a method with an any field, you need to know the function signature
+		// check out pbsig170 in PowerBuilder docs
+		// if you dont care about return type, you dont have to provide a return type here, because it doesnt have to find the signature
+		u_obj.InvokeSig(L"of_any_func", PBRT_FUNCTION, L"IA", null_obj);
 	}
 
 	// Setting and getting fields
-	// This will error because u_pbni_ex doesnt have fields
 	Inf::PBInt x = u_obj.GetField<Inf::PBInt>(L"some_field");
 	x += 10;
 	u_obj.SetField(L"other_field", x);
