@@ -7,11 +7,11 @@
 
 // Class Description needs to be registered before any functions
 // Never put any Register Macros inside a header, otherwise the classes/functions will be registered multiple times.
-INF_REGISTER_CLASS(PBNI_Example, L"u_pbni_ex");
+INF_REGISTER_CLASS(PBNI_Example, L"u_pbni_example");
 // Basically every string you use with PowerBuilder should be a wide string, so put L's infront of everything
 
 
-// All Function Registrations need to be in the same file as Class Registeristration
+// All Function Registrations need to be in the same file as the Class Registeristration
 INF_REGISTER_FUNC(of_basic_func);
 void PBNI_Example::of_basic_func()
 {
@@ -69,7 +69,7 @@ INF_REGISTER_FUNC(of_blobs, L"abl_blob");
 Inf::PBBlob PBNI_Example::of_blobs(Inf::PBBlob& abl_blob)
 {
 	// PBBlob is just a wrapper, GetData returns a pointer to the actual data
-	for (pbbyte* byte = abl_blob.GetData(), *end = abl_blob.GetData() + abl_blob.Size() ; byte < end ; byte++)
+	for (pbbyte* byte = abl_blob.GetData(), *end = abl_blob.GetData() + abl_blob.Size(); byte < end; byte++)
 	{
 		// This will write to the reference
 		*byte |= 0b01010101;
@@ -83,15 +83,15 @@ Inf::PBBlob PBNI_Example::of_blobs(Inf::PBBlob& abl_blob)
 
 
 INF_REGISTER_FUNC(of_objects, L"u_obj");
-Inf::PBObject<L"u_pbni_ex"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni_ex"> u_obj)
+Inf::PBObject<L"u_pbni_example"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni_example"> u_obj)
 {
 	if (!u_obj.IsNull())
 	{
 		// Passing (m_Session, 0) wil create a null object with all complex types (except dec)
-		Inf::PBObject<L"u_pbni_ex"> null_obj(m_Session, 0);
+		Inf::PBObject<L"u_pbni_example"> null_obj(m_Session, 0);
 
 		// You can invoke methods, just need to provide the Return Type
-		u_obj.Invoke<Inf::PBObject<L"u_pbni_ex">>(L"of_objects", PBRT_FUNCTION, null_obj);
+		u_obj.Invoke<Inf::PBObject<L"u_pbni_example">>(L"of_objects", PBRT_FUNCTION, null_obj);
 
 		// If you want to invoke a method with an any field, you need to know the function signature
 		// check out pbsig170 in PowerBuilder docs
@@ -109,7 +109,7 @@ Inf::PBObject<L"u_pbni_ex"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni_ex">
 	u_obj.GetObjectField<L"u_other_type">(L"subclass?");
 	u_obj.GetObjectField<L"u_other_type.st_sub_type", pbgroup_structure>(L"struct");
 
-	return Inf::PBObject<L"u_pbni_ex">(m_Session);
+	return Inf::PBObject<L"u_pbni_example">(m_Session);
 }
 
 
