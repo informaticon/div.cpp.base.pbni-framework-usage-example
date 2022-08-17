@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
 
-
 ##################################################
 #                    Options                     #
 ##################################################
@@ -18,19 +17,17 @@ set(PBNI_LIBRARY "${PBNI_DIR}/lib/pbni.lib" CACHE FILEPATH "PowerBuilder Native 
 #                libUsageExample                 #
 ##################################################
 
-project("div.cpp.base.pbni-framework-usage-example" VERSION 1.0.0 LANGUAGES CXX)
+project(div.cpp.base.pbni-framework-usage-example VERSION 1.0.0 LANGUAGES CXX)
 
 add_library(libUsageExample SHARED
-	"src/example.h"
-	"src/example.cpp"
-	"src/dllmain.cpp"
+	src/example.h
+	src/example.cpp
 )
 
-source_group( "src"
+source_group( src
 FILES
-	"src/example.h"
-	"src/example.cpp"
-	"src/dllmain.cpp"
+	src/example.h
+	src/example.cpp
 )
 
 set_target_properties(libUsageExample
@@ -46,5 +43,5 @@ install(TARGETS libUsageExample
 )
 
 
-add_subdirectory("extern/lib.cpp.base.pbni-framework")
+add_subdirectory(extern/lib.cpp.base.pbni-framework)
 target_link_libraries(libUsageExample PRIVATE libPBNIFramework)
