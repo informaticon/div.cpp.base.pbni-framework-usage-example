@@ -9,6 +9,7 @@ public:
 	inline std::wstring GetPBName() override { return L"u_pbni_example"; }
 
 	void of_basic_func();
+	Inf::PBDecimal of_dec(Inf::PBDecimal& dec);
 	Inf::PBBoolean of_args_ref_return(Inf::PBUint aui_count, Inf::PBLongLong& all_by_ref);
 
 	Inf::PBDateTime of_dates(Inf::PBDate& ad_date, Inf::PBTime at_time);

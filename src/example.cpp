@@ -15,6 +15,7 @@ INF_REGISTER_CLASS(PBNI_Example, L"u_pbni_example");
 INF_REGISTER_FUNC(of_basic_func);
 void PBNI_Example::of_basic_func()
 {
+	PBX_CreateNonVisualObject(nullptr, nullptr, L"", nullptr);
 	MessageBoxW(NULL, L"A PBNI Function got called", L"PBNI Msg", MB_OK);
 }
 
@@ -28,6 +29,16 @@ Inf::PBBoolean PBNI_Example::of_args_ref_return(Inf::PBUint aui_count, Inf::PBLo
 
 	// Automatic cast from bool to Inf::PBBoolean
 	return false;
+}
+
+
+INF_REGISTER_FUNC(of_dec, L"ad_dec");
+Inf::PBDecimal PBNI_Example::of_dec(Inf::PBDecimal& dec)
+{
+	auto x = dec.GetDecimal();
+	x *= 3;
+	dec.SetDecimal(x);
+	return { m_Session, dec.GetDecimal() / 15 };
 }
 
 
