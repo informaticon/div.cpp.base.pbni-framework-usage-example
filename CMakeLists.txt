@@ -8,10 +8,6 @@ cmake_minimum_required(VERSION 3.0)
 set(OUTPUT_PATH "${CMAKE_SOURCE_DIR}/out" CACHE PATH "Location of built dlls/libraries")
 set(A3_LIB_PATH "C:/Code/Cpp/erp.win.base.main/lib" CACHE PATH "Location of A3, is used to copy the resulting DLL")
 
-set(PBNI_DIR "C:/Program Files (x86)/Appeon/PowerBuilder 17.0/SDK/PBNI" CACHE PATH "PATH of PowerBuilder Native Interface SDK")
-set(PBNI_INCLUDE_DIR "${PBNI_DIR}/include" CACHE PATH "PowerBuilder Native Interface header files location")
-set(PBNI_LIBRARY "${PBNI_DIR}/lib/pbni.lib" CACHE FILEPATH "PowerBuilder Native Interface library for release target")
-
 
 ##################################################
 #                libUsageExample                 #
@@ -24,7 +20,7 @@ add_library(libUsageExample SHARED
 	src/example.cpp
 )
 
-source_group( src
+source_group("Source Files"
 FILES
 	src/example.h
 	src/example.cpp

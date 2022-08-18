@@ -6,7 +6,9 @@
 class PBNI_Example : public Inf::PBNI_Class
 {
 public:
-	inline std::wstring GetPBName() override { return L"u_pbni_example"; }
+	PBNI_Example(IPB_Session* session, pbobject pbobj, std::wstring pb_class_name)
+		: Inf::PBNI_Class(session, pbobj, pb_class_name)
+	{ }
 
 	void basic_func();
 	Inf::PBDecimal dec(Inf::PBDecimal& dec);
