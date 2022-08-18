@@ -1,6 +1,6 @@
 #include "example.h"
 
-#include <cstdlib>
+#include <WinUser.h>
 
 #include <ClassDescription.h>
 
@@ -12,8 +12,8 @@ INF_REGISTER_CLASS(PBNI_Example, L"u_pbni_example");
 
 
 // All Function Registrations need to be in the same file as the Class Registeristration
-INF_REGISTER_FUNC(of_basic_func);
-void PBNI_Example::of_basic_func()
+INF_REGISTER_FUNC(basic_func, L"of_basic_func");
+void PBNI_Example::basic_func()
 {
 	PBX_CreateNonVisualObject(nullptr, nullptr, L"", nullptr);
 	MessageBoxW(NULL, L"A PBNI Function got called", L"PBNI Msg", MB_OK);
@@ -21,8 +21,8 @@ void PBNI_Example::of_basic_func()
 
 // INF_REGISTER_FUNC needs to have the same amount of argument names as the registered function
 // INF_REGISTER_FUNC will automatically deduce argument and return types
-INF_REGISTER_FUNC(of_args_ref_return, L"aui_count", L"all_by_ref");
-Inf::PBBoolean PBNI_Example::of_args_ref_return(Inf::PBUint aui_count, Inf::PBLongLong& all_by_ref)
+INF_REGISTER_FUNC(args_ref_return, L"of_args_ref_return", L"aui_count", L"all_by_ref");
+Inf::PBBoolean PBNI_Example::args_ref_return(Inf::PBUint aui_count, Inf::PBLongLong& all_by_ref)
 {
 	// When the function returns the PowerBuilder longlong will be set to all_by_ref
 	all_by_ref = aui_count;
@@ -32,8 +32,8 @@ Inf::PBBoolean PBNI_Example::of_args_ref_return(Inf::PBUint aui_count, Inf::PBLo
 }
 
 
-INF_REGISTER_FUNC(of_dec, L"ad_dec");
-Inf::PBDecimal PBNI_Example::of_dec(Inf::PBDecimal& dec)
+INF_REGISTER_FUNC(dec, L"of_dec", L"ad_dec");
+Inf::PBDecimal PBNI_Example::dec(Inf::PBDecimal& dec)
 {
 	auto x = dec.GetDecimal();
 	x *= 3;
@@ -42,8 +42,8 @@ Inf::PBDecimal PBNI_Example::of_dec(Inf::PBDecimal& dec)
 }
 
 
-INF_REGISTER_FUNC(of_dates, L"ad_date", L"at_time");
-Inf::PBDateTime PBNI_Example::of_dates(Inf::PBDate& ad_date, Inf::PBTime at_time)
+INF_REGISTER_FUNC(dates, L"of_dates", L"ad_date", L"at_time");
+Inf::PBDateTime PBNI_Example::dates(Inf::PBDate& ad_date, Inf::PBTime at_time)
 {
 	// PB[Date][Time] Are just small wrappers, if you want to do actuall calculations, use boost::gregorian
 	auto [year, month, day] = ad_date.GetDate();
@@ -60,8 +60,8 @@ Inf::PBDateTime PBNI_Example::of_dates(Inf::PBDate& ad_date, Inf::PBTime at_time
 }
 
 
-INF_REGISTER_FUNC(of_strings, L"as_str");
-Inf::PBString PBNI_Example::of_strings(Inf::PBString as_str)
+INF_REGISTER_FUNC(strings, L"of_strings", L"as_str");
+Inf::PBString PBNI_Example::strings(Inf::PBString as_str)
 {
 	// This will convert PowerBuilders utf-16 to Ansi using Windows API
 	std::string ansi_str = as_str.GetString();
@@ -76,8 +76,8 @@ Inf::PBString PBNI_Example::of_strings(Inf::PBString as_str)
 }
 
 
-INF_REGISTER_FUNC(of_blobs, L"abl_blob");
-Inf::PBBlob PBNI_Example::of_blobs(Inf::PBBlob& abl_blob)
+INF_REGISTER_FUNC(blobs, L"of_blobs", L"abl_blob");
+Inf::PBBlob PBNI_Example::blobs(Inf::PBBlob& abl_blob)
 {
 	// PBBlob is just a wrapper, GetData returns a pointer to the actual data
 	for (pbbyte* byte = abl_blob.GetData(), *end = abl_blob.GetData() + abl_blob.Size(); byte < end; byte++)
@@ -93,8 +93,8 @@ Inf::PBBlob PBNI_Example::of_blobs(Inf::PBBlob& abl_blob)
 }
 
 
-INF_REGISTER_FUNC(of_objects, L"u_obj");
-Inf::PBObject<L"u_pbni_example"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni_example"> u_obj)
+INF_REGISTER_FUNC(objects, L"of_objects", L"u_obj");
+Inf::PBObject<L"u_pbni_example"> PBNI_Example::objects(Inf::PBObject<L"u_pbni_example"> u_obj)
 {
 	if (!u_obj.IsNull())
 	{
@@ -102,12 +102,12 @@ Inf::PBObject<L"u_pbni_example"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni
 		Inf::PBObject<L"u_pbni_example"> null_obj(m_Session, 0);
 
 		// You can invoke methods, just need to provide the Return Type
-		u_obj.Invoke<Inf::PBObject<L"u_pbni_example">>(L"of_objects", PBRT_FUNCTION, null_obj);
+		u_obj.Invoke<Inf::PBObject<L"u_pbni_example">>(L"objects", PBRT_FUNCTION, null_obj);
 
 		// If you want to invoke a method with an any field, you need to know the function signature
 		// check out pbsig170 in PowerBuilder docs
 		// if you dont care about return type, you dont have to provide a return type here, because it doesnt have to find the signature
-		u_obj.InvokeSig(L"of_any_func", PBRT_FUNCTION, L"IA", null_obj);
+		u_obj.InvokeSig(L"any_func", PBRT_FUNCTION, L"IA", null_obj);
 	}
 
 	// Setting and getting fields
@@ -124,17 +124,17 @@ Inf::PBObject<L"u_pbni_example"> PBNI_Example::of_objects(Inf::PBObject<L"u_pbni
 }
 
 
-INF_REGISTER_FUNC(of_arrays, L"u_obj");
-void PBNI_Example::of_arrays(Inf::PBArray<Inf::PBInt> aa_arr)
+INF_REGISTER_FUNC(arrays, L"of_arrays", L"u_obj");
+void PBNI_Example::arrays(Inf::PBArray<Inf::PBInt> aa_arr)
 {
 	// Unbounded array start at 1, go up infinetly
-	// Gets error when out of bounds
+	// Getters error when out of bounds
 	if (10 <= aa_arr.Size())
 	{
 		Inf::PBInt x = aa_arr.Get(10);
 	}
 
-	// Sets will always be okay
+	// Setters will always be okay
 	aa_arr.Set(10468442, 1337);
 
 
@@ -151,8 +151,8 @@ void PBNI_Example::of_arrays(Inf::PBArray<Inf::PBInt> aa_arr)
 }
 
 
-INF_REGISTER_FUNC(of_throw, L"u_obj");
-void PBNI_Example::of_throw(Inf::PBString as_err_msg)
+INF_REGISTER_FUNC(throws, L"of_throw", L"u_obj");
+void PBNI_Example::throws(Inf::PBString as_err_msg)
 {
 	if (std::rand() % 64 < 16)
 		// This will throw a Powerbuilder exception, which you need to catch in PB
