@@ -15,7 +15,6 @@ INF_REGISTER_CLASS(PBNI_Example, L"u_pbni_example");
 INF_REGISTER_FUNC(basic_func, L"of_basic_func");
 void PBNI_Example::basic_func()
 {
-	PBX_CreateNonVisualObject(nullptr, nullptr, L"", nullptr);
 	MessageBoxW(NULL, L"A PBNI Function got called", L"PBNI Msg", MB_OK);
 }
 
@@ -116,9 +115,9 @@ Inf::PBObject<L"u_pbni_example"> PBNI_Example::objects(Inf::PBObject<L"u_pbni_ex
 	u_obj.SetField(L"other_field", x);
 
 
-	u_obj.GetArrayField<Inf::PBInt>(L"arraysss");
-	u_obj.GetObjectField<L"u_other_type">(L"subclass?");
-	u_obj.GetObjectField<L"u_other_type.st_sub_type", pbgroup_structure>(L"struct");
+	u_obj.GetField<Inf::PBArray<Inf::PBInt>>(L"arraysss");
+	u_obj.GetField<Inf::PBObject<L"u_other_type">>(L"subclass?");
+	u_obj.GetField<Inf::PBStruct<L"u_other_type.st_sub_type">>(L"struct");
 
 	return Inf::PBObject<L"u_pbni_example">(m_Session);
 }
