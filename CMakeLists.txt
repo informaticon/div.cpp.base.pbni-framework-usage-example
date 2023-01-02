@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.0)
 ##################################################
 
 set(OUTPUT_PATH "${CMAKE_SOURCE_DIR}/out" CACHE PATH "Location of built dlls/libraries")
-set(A3_LIB_PATH "C:/Code/Cpp/erp.win.base.main/lib" CACHE PATH "Location of A3, is used to copy the resulting DLL")
+set(A3_LIB_PATH "C:/a3/erp.win.base.main/lib" CACHE PATH "Location of A3, is used to copy the resulting DLL")
 
 
 ##################################################
