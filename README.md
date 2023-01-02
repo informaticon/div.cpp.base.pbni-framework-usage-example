@@ -5,7 +5,7 @@ Example of how to use https://github.com/informaticon/lib.cpp.base.pbni-framewor
 Start by installing [vcpkg](https://vcpkg.io/en/getting-started.html).\
 Then install the pacakges needed for the PBNI Framework:
 ```ps1
- C:\vcpkg\vcpkg.exe install --triplet=x86-windows-static boost-stacktrace boost-utility boost-multiprecision
+vcpkg install --triplet=x86-windows-static boost-stacktrace boost-utility boost-multiprecision
 ```
 
 Clone this repo using ``--recursive``. Or clone it normally and run ``git submodule update --init --recursive`` after. Then cd into the new directory. create a build folder and run CMake:
