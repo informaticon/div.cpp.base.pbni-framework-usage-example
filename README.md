@@ -8,7 +8,7 @@ Then install the pacakges needed for the PBNI Framework:
  C:\vcpkg\vcpkg.exe install --triplet=x86-windows-static boost-stacktrace boost-utility boost-multiprecision
 ```
 
-Clone this repo using ``--recursive``. Or clone it normally and run ``git submodule update --init --recursive`` after. Then create a build folder and run CMake:
+Clone this repo using ``--recursive``. Or clone it normally and run ``git submodule update --init --recursive`` after. Then cd into the new directory. create a build folder and run CMake:
 ```ps1
 mkdir build; cd build
 
