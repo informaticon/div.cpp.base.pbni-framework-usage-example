@@ -9,8 +9,6 @@ vcpkg install --triplet=x86-windows-static boost-stacktrace boost-utility boost-
 ```
 
 ## Setup
-If you havent cloned this repo with `--recursive` you need to run `git submodule update --init --recursive ` to clone the submodules.
-
 Clone this repo using ``--recursive``. Or clone it normally and run ``git submodule update --init --recursive`` after. Then cd into the new directory. create a build folder and run CMake:
 ```ps1
 mkdir build; cd build
