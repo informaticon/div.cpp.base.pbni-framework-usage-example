@@ -19,4 +19,4 @@ cmake .. -A Win32 `
 ```
 
 Open the newly crated Visual Studio Solution and build `libUsageExample`. You should now have an `out` folder with a DLL that you can import into PowerBuilder.\
-If you build `INSTALL` it will copy the DLL into the A3 Folder.
+If you build `INSTALL` it will copy the DLL into the A3 Folder. You can change the Installation locaiton in [CmakeLists.txt](https://github.com/informaticon/div.cpp.base.pbni-framework-usage-example/blob/main/CMakeLists.txt#L9), this needs a complete rebuild tho.
