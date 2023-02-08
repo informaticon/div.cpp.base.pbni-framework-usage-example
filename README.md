@@ -2,8 +2,7 @@
 Example of how to use https://github.com/informaticon/lib.cpp.base.pbni-framework
 
 ## Prerequisites
-Firstly you need to install [Visual Studio](https://visualstudio.microsoft.com/downloads/) and [Git](https://git-scm.com/downloads).
-You need to install [cmake](https://cmake.org/install/) and [vcpkg](https://vcpkg.io/en/getting-started.html).\
+Firstly you need to install [Visual Studio](https://visualstudio.microsoft.com/downloads/), [Git](https://git-scm.com/downloads), [cmake](https://cmake.org/install/) and [vcpkg](https://vcpkg.io/en/getting-started.html).\
 Then install the pacakges needed for the PBNI Framework:
 ```ps1
 vcpkg install --triplet=x86-windows-static boost-stacktrace boost-utility boost-multiprecision
