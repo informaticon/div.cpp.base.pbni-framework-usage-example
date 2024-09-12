@@ -2,8 +2,6 @@
 
 #include <WinUser.h>
 
-#include <ClassDescription.h>
-
 
 // Class Description needs to be registered before any functions
 // Never put any Register Macros inside a header, otherwise the classes/functions will be registered multiple times.
@@ -155,8 +153,7 @@ void PBNI_Example::throws(Inf::PBString as_err_msg)
 {
 	if (std::rand() % 64 < 16)
 		// This will throw a Powerbuilder exception, which you need to catch in PB
-		throw Inf::PBNI_Exception({ 
-			{ L"Error", L"Everything worked as expected!" },
+		throw Inf::PBNI_Exception(L"Everything worked as expected!", { 
 			{ L"Description", L"This error was intentionally thrown" }
 		});
 }

@@ -1,43 +1,15 @@
-cmake_minimum_required(VERSION 3.0)
-
-
-##################################################
-#                    Options                     #
-##################################################
-
-set(OUTPUT_PATH "${CMAKE_SOURCE_DIR}/out" CACHE PATH "Location of built dlls/libraries")
-set(A3_LIB_PATH "C:/a3/erp.win.base.main/lib" CACHE PATH "Location of A3, is used to copy the resulting DLL")
-
-
-##################################################
-#                libUsageExample                 #
-##################################################
+cmake_minimum_required(VERSION 3.5)
 
 project(div.cpp.base.pbni-framework-usage-example VERSION 1.0.0 LANGUAGES CXX)
 
-add_library(libUsageExample SHARED
+add_library(${PROJECT_NAME} SHARED
 	src/example.h
 	src/example.cpp
 )
 
-source_group("Source Files"
-FILES
-	src/example.h
-	src/example.cpp
-)
+set(PBNI_USE_STATIC_RUNTIME ON)
+set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-set_target_properties(libUsageExample
-PROPERTIES 
-	OUTPUT_NAME libUsageExample
-	RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_PATH}
-	ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_PATH}
-	LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_PATH}
-)
-
-install(TARGETS libUsageExample
-	RUNTIME DESTINATION ${A3_LIB_PATH}
-)
-
-
-add_subdirectory(extern/lib.cpp.base.pbni-framework)
-target_link_libraries(libUsageExample PRIVATE libPBNIFramework)
+find_package(pbni-framework CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PUBLIC inf::pbni-framework)
+target_precompile_headers(${PROJECT_NAME} PUBLIC ${PBNI_FRAMEWORK_HEADERS})
