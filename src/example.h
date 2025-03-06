@@ -3,10 +3,6 @@
 class PBNI_Example : public Inf::PBNI_Class
 {
 public:
-    PBNI_Example(IPB_Session* session, pbobject pbobj, std::wstring pb_class_name)
-        : Inf::PBNI_Class(session, pbobj, pb_class_name)
-    { }
-
     void basic_func();
     Inf::PBDecimal dec(Inf::PBDecimal& dec);
     Inf::PBBoolean args_ref_return(Inf::PBUint aui_count, Inf::PBLongLong& all_by_ref);

@@ -1,7 +1,5 @@
 #include "example.h"
 
-#include <WinUser.h>
-
 
 // Class Description needs to be registered before any functions
 // Never put any Register Macros inside a header, otherwise the classes/functions will be registered multiple times.
